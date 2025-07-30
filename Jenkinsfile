@@ -44,7 +44,10 @@ pipeline {
                     sh """
                 ssh -o StrictHostKeyChecking=no ubuntu@\$PRODUCTION_IP_ADDRESS '
                     if [ ! -d "todos-app-main" ]; then
-                        git clone git@github.com:Gamer1022/Jenkins-CI-CD.git todos-app-main
+                        git clone https://github.com/Gamer1022/Jenkins-CI-CD.git todos-app-main
+
+
+
                     fi
                 '
             """
