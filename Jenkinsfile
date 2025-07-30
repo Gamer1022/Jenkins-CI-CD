@@ -4,7 +4,7 @@ pipeline {
         nodejs "nodejs"
     }
     environment {
-        PRODUCTION_IP_ADDRESS = '54.235.38.1'  
+        PRODUCTION_IP_ADDRESS = '54.209.80.116'  
     }
     stages {
         stage('Install Packages') {
