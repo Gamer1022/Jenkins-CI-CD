@@ -6,6 +6,10 @@ const app = express();
 app.use(urlencoded({ extended: false }));
 app.use(json());
 
+app.get('/', (_, res) => {
+  res.send('Welcome to the todos app!');
+});
+
 app.get('/health', (_, res) => res.json({ message: 'Server is up and running!' }));
 app.use('/todos', todosRoutes);
 
