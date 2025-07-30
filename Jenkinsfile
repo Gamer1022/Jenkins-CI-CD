@@ -1,10 +1,10 @@
 pipeline {
     agent any
     tools {
-        nodejs "nodejs"
+        nodejs 'nodejs'
     }
     environment {
-        PRODUCTION_IP_ADDRESS = '54.209.80.116'  
+        PRODUCTION_IP_ADDRESS = '54.209.80.116'
     }
     stages {
         stage('Install Packages') {
@@ -39,27 +39,16 @@ pipeline {
             }
         }
         stage('Deploy') {
-            environment {
-                DEPLOY_SSH_KEY = credentials('AWS_INSTANCE_SSH')
-            }
             steps {
-                sh """
-                    ssh -v -i \$DEPLOY_SSH_KEY ubuntu@\$PRODUCTION_IP_ADDRESS '
-                        if [ ! -d "todos-app" ]; then
-                            git clone git@github.com:your-username/Jenkins-CI-CD.git todos-app
-                            cd todos-app
-                        else
-                            cd todos-app
-                            git pull
-                        fi
-                        yarn install
-                        if pm2 describe todos-app > /dev/null ; then
-                            pm2 restart todos-app
-                        else
-                            yarn start:pm2
-                        fi
-                    '
-                """
+                sshagent(['AWS_INSTANCE_SSH']) {
+                    sh """
+                ssh -o StrictHostKeyChecking=no ubuntu@\$PRODUCTION_IP_ADDRESS '
+                    if [ ! -d "todos-app-main" ]; then
+                        git clone git@github.com:Gamer1022/Jenkins-CI-CD.git todos-app-main
+                    fi
+                '
+            """
+                }
             }
         }
     }
